@@ -1,0 +1,197 @@
+<!-- 登录页面 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学校管理系统 - 登录</title>
+  <style>
+      :root {
+          --primary-color: #2563eb;
+          --secondary-color: #60a5fa;
+          --text-dark: #1e293b;
+          --text-light: #64748b;
+      }
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+      }
+
+      body {
+          min-height: 100vh;
+          display: flex;
+      }
+
+      .banner {
+          flex: 1;
+          background: linear-gradient(rgba(37, 99, 235, 0.8), rgba(37, 99, 235, 0.8)),
+          url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b') center/cover;
+          color: white;
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+
+      .banner h2 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+      }
+
+      .form-container {
+          width: 450px;
+          padding: 3rem 2rem;
+          background: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+
+      .form-header {
+          margin-bottom: 2rem;
+      }
+
+      .form-header h1 {
+          color: var(--text-dark);
+          font-size: 1.8rem;
+          margin-bottom: 0.5rem;
+      }
+
+      .form-group {
+          margin-bottom: 1.2rem;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 0.4rem;
+          color: var(--text-dark);
+          font-size: 0.9rem;
+      }
+
+      .input-field {
+          width: 100%;
+          padding: 0.7rem;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          font-size: 0.95rem;
+      }
+
+      .input-field:focus {
+          outline: none;
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .captcha-group {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+      }
+
+      .captcha-input {
+          flex: 1;
+      }
+
+      .captcha-img {
+          width: 120px;
+          background: #f1f5f9;
+          border-radius: 6px;
+          display: grid;
+          place-items: center;
+          font-weight: 600;
+          color: var(--primary-color);
+      }
+
+      .submit-btn {
+          width: 100%;
+          padding: 0.9rem;
+          background: var(--primary-color);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s;
+      }
+
+      .submit-btn:hover {
+          background: #1d4ed8;
+      }
+
+      .footer-links {
+          margin-top: 1.5rem;
+          text-align: center;
+          color: var(--text-light);
+      }
+
+      .footer-links a {
+          color: var(--primary-color);
+          text-decoration: none;
+      }
+
+      @media (max-width: 768px) {
+          body {
+              flex-direction: column;
+          }
+
+          .banner {
+              display: none;
+          }
+
+          .form-container {
+              width: 100%;
+              padding: 2rem 1.5rem;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="banner">
+  <h2>欢迎回到智慧校园</h2>
+  <p>连接知识，启迪未来</p>
+</div>
+
+<div class="form-container">
+  <div class="form-header">
+    <h1>用户登录</h1>
+    <p>新用户？ <a href="register.html" style="color: var(--primary-color)">创建账户</a></p>
+  </div>
+
+  <form>
+    <div class="form-group">
+      <input type="text"
+             class="input-field"
+             placeholder="手机号/电子邮箱"
+             required>
+    </div>
+
+    <div class="form-group">
+      <input type="password"
+             class="input-field"
+             placeholder="输入密码"
+             required
+             minlength="8">
+    </div>
+
+    <div class="captcha-group">
+      <input type="text"
+             class="input-field captcha-input"
+             placeholder="输入验证码"
+             required>
+      <div class="captcha-img">
+        <span>AB34</span>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">立即登录</button>
+  </form>
+
+  <div class="footer-links">
+    <a href="#">忘记密码？</a>
+  </div>
+</div>
+</body>
+</html>

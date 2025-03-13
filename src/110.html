@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人中心 - 资料管理</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+      :root {
+          --primary-color: #2ecc71;
+          --secondary-color: #27ae60;
+          --text-color: #333;
+          --bg-color: #f9f9f9;
+      }
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Segoe UI', sans-serif;
+      }
+
+      body {
+          background-color: var(--bg-color);
+          color: var(--text-color);
+          line-height: 1.6;
+      }
+
+      .container {
+          max-width: 800px;
+          margin: 50px auto;
+          padding: 30px;
+          background: white;
+          border-radius: 15px;
+          box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      }
+
+      /* 头像上传 */
+      .avatar-section {
+          text-align: center;
+          margin-bottom: 30px;
+      }
+
+      .avatar-edit {
+          position: relative;
+          display: inline-block;
+      }
+
+      .avatar-preview {
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          border: 3px solid #ddd;
+          cursor: pointer;
+          background-size: cover;
+          transition: transform 0.3s;
+      }
+
+      .avatar-preview:hover {
+          transform: scale(1.05);
+      }
+
+      #avatar-upload {
+          display: none;
+      }
+
+      /* 表单样式 */
+      .profile-form {
+          display: grid;
+          gap: 20px;
+      }
+
+      .form-group {
+          position: relative;
+      }
+
+      .form-label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: 600;
+          color: var(--text-color);
+      }
+
+      .form-control {
+          width: 100%;
+          padding: 12px 15px;
+          border: 2px solid #eee;
+          border-radius: 8px;
+          transition: border-color 0.3s;
+      }
+
+      .form-control:focus {
+          outline: none;
+          border-color: var(--primary-color);
+      }
+
+      /* 按钮样式 */
+      .btn {
+          padding: 12px 30px;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s;
+          font-weight: 600;
+      }
+
+      .btn-primary {
+          background: var(--primary-color);
+          color: white;
+      }
+
+      .btn-primary:hover {
+          background: var(--secondary-color);
+      }
+
+      /* 错误提示 */
+      .error-message {
+          color: #e74c3c;
+          font-size: 0.9em;
+          margin-top: 5px;
+          display: none;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+          .container {
+              margin: 20px;
+              padding: 20px;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- 头像上传 -->
+  <div class="avatar-section">
+    <div class="avatar-edit">
+      <label for="avatar-upload">
+        <div class="avatar-preview" style="background-image: url(https://via.placeholder.com/150)"></div>
+      </label>
+      <input type="file" id="avatar-upload" accept="image/*">
+    </div>
+    <h2>用户资料</h2>
+  </div>
+
+  <!-- 资料表单 -->
+  <form class="profile-form" id="profileForm">
+    <div class="form-group">
+      <label class="form-label">用户名</label>
+      <input type="text" class="form-control" id="username" required>
+      <div class="error-message" id="usernameError"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">电子邮箱</label>
+      <input type="email" class="form-control" id="email" required>
+      <div class="error-message" id="emailError"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">手机号码</label>
+      <input type="tel" class="form-control" id="phone" pattern="[0-9]{11}">
+      <div class="error-message" id="phoneError"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">个人简介</label>
+      <textarea class="form-control" id="bio" rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">保存修改</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // 头像上传预览
+  const avatarUpload = document.getElementById('avatar-upload');
+  const avatarPreview = document.querySelector('.avatar-preview');
+
+  avatarUpload.addEventListener('change', function(e) {
+    const file = e.target.files;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        avatarPreview.style.backgroundImage = `url(${e.target.result})`;
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // 表单验证
+  const form = document.getElementById('profileForm');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearErrors();
+
+    // 用户名验证
+    const username = document.getElementById('username');
+    if (username.value.trim().length < 3) {
+      showError('usernameError', '用户名至少需要3个字符');
+      return;
+    }
+
+    // 邮箱验证
+    const email = document.getElementById('email');
+    if (!validateEmail(email.value)) {
+      showError('emailError', '请输入有效的邮箱地址');
+      return;
+    }
+
+    // 手机号验证
+    const phone = document.getElementById('phone');
+    if (phone.value && !/^1[3-9]\d{9}$/.test(phone.value)) {
+      showError('phoneError', '请输入有效的手机号码');
+      return;
+    }
+
+    // 提交成功处理（此处可添加AJAX请求）
+    alert('资料保存成功！');
+    // 实际项目中应发送到后端保存
+  });
+
+  // 辅助函数
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.error-message').forEach(el => {
+      el.style.display = 'none';
+    });
+  }
+
+  // 初始化数据（可从后端获取）
+  document.getElementById('username').value = '张三';
+  document.getElementById('email').value = 'zhangsan@example.com';
+  document.getElementById('phone').value = '13800138000';
+  document.getElementById('bio').value = '全栈开发工程师 | 技术博主';
+</script>
+</body>
+</html>

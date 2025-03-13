@@ -1,0 +1,123 @@
+<!-- src/views/Profile.vue -->
+<template>
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>{{ userInfo.nickname }}的个人中心</h1>
+      <p>欢迎使用智慧校园平台</p>
+    </div>
+
+    <div class="profile-card">
+      <div class="avatar-section">
+        <img :src="userInfo.avatar || '/default-avatar.png'" class="user-avatar">
+        <button @click="router.push('/settings')">修改头像</button>
+      </div>
+
+      <div class="info-section">
+        <div class="info-item">
+          <label>账号类型：</label>
+          <span>{{ userInfo.role === 1 ? '学生' : '教师' }}</span>
+        </div>
+        <div class="info-item">
+          <label>注册邮箱：</label>
+          <span>{{ userInfo.email }}</span>
+        </div>
+        <div class="info-item">
+          <label>手机号码：</label>
+          <span>{{ userInfo.phone }}</span>
+        </div>
+      </div>
+
+      <button @click="handleLogout" class="logout-btn">退出登录</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import axios from 'axios';
+
+  const router = useRouter();
+  const API_BASE = 'http://localhost:8081/home/api/users';
+  const userInfo = ref({});
+
+  // 获取用户信息
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/profile`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      userInfo.value = response.data.data;
+    } catch (error) {
+      console.error('获取用户信息失败:', error);
+      router.push('/login');
+    }
+  };
+
+  // 退出登录
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
+
+  onMounted(() => {
+    if (!localStorage.getItem('token')) {
+      router.push('/login');
+    }
+    fetchUserInfo();
+  });
+</script>
+
+<style scoped>
+    .profile-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .profile-card {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .logout-btn {
+        grid-column: 1 / -1;
+        padding: 0.8rem;
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .logout-btn:hover {
+        background: #dc2626;
+    }
+
+    .info-item {
+        margin: 1rem 0;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 8px;
+    }
+</style>

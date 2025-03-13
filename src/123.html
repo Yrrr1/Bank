@@ -1,0 +1,201 @@
+<!-- 注册页面 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学校管理系统 - 注册</title>
+  <style>
+      :root {
+          --primary-color: #2563eb;
+          --secondary-color: #60a5fa;
+          --text-dark: #1e293b;
+          --text-light: #64748b;
+      }
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+      }
+
+      body {
+          min-height: 100vh;
+          display: flex;
+      }
+
+      .banner {
+          flex: 1;
+          background: linear-gradient(rgba(37, 99, 235, 0.8), rgba(37, 99, 235, 0.8)),
+          url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b') center/cover;
+          color: white;
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+
+      .banner h2 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+      }
+
+      .form-container {
+          width: 450px;
+          padding: 3rem 2rem;
+          background: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+
+      .form-header {
+          margin-bottom: 2rem;
+      }
+
+      .form-header h1 {
+          color: var(--text-dark);
+          font-size: 1.8rem;
+          margin-bottom: 0.5rem;
+      }
+
+      .form-header p {
+          color: var(--text-light);
+      }
+
+      .form-group {
+          margin-bottom: 1.2rem;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 0.4rem;
+          color: var(--text-dark);
+          font-size: 0.9rem;
+      }
+
+      .input-field {
+          width: 100%;
+          padding: 0.7rem;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          font-size: 0.95rem;
+      }
+
+      .input-field:focus {
+          outline: none;
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .gender-group {
+          display: flex;
+          gap: 1rem;
+      }
+
+      .gender-radio {
+          display: none;
+      }
+
+      .gender-label {
+          flex: 1;
+          padding: 0.7rem;
+          border: 2px solid #e2e8f0;
+          border-radius: 8px;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.2s;
+      }
+
+      .gender-radio:checked + .gender-label {
+          border-color: var(--primary-color);
+          background: rgba(37, 99, 235, 0.05);
+      }
+
+      .submit-btn {
+          width: 100%;
+          padding: 0.9rem;
+          background: var(--primary-color);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s;
+      }
+
+      .submit-btn:hover {
+          background: #1d4ed8;
+      }
+
+      @media (max-width: 768px) {
+          body {
+              flex-direction: column;
+          }
+
+          .banner {
+              display: none;
+          }
+
+          .form-container {
+              width: 100%;
+              padding: 2rem 1.5rem;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="banner">
+  <h2>加入智慧校园</h2>
+  <p>成为我们教育社区的一员，开启数字化学习新体验</p>
+</div>
+
+<div class="form-container">
+  <div class="form-header">
+    <h1>创建新账户</h1>
+    <p>已有账户？ <a href="login.html" style="color: var(--primary-color)">立即登录</a></p>
+  </div>
+
+  <form>
+    <div class="form-group">
+      <label>用户名</label>
+      <input type="text" class="input-field" placeholder="请输入用户名" required>
+    </div>
+
+    <div class="form-group">
+      <label>密码</label>
+      <input type="password" class="input-field" placeholder="至少8位字符" required minlength="8">
+    </div>
+
+    <div class="form-group">
+      <label>确认密码</label>
+      <input type="password" class="input-field" placeholder="请再次输入密码" required>
+    </div>
+
+    <div class="form-group">
+      <label>性别</label>
+      <div class="gender-group">
+        <input type="radio" name="gender" id="male" class="gender-radio" required>
+        <label for="male" class="gender-label">男</label>
+
+        <input type="radio" name="gender" id="female" class="gender-radio">
+        <label for="female" class="gender-label">女</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>手机号</label>
+      <input type="tel" class="input-field" placeholder="138-1234-5678" pattern="[0-9]{11}" required>
+    </div>
+
+    <div class="form-group">
+      <label>电子邮箱</label>
+      <input type="email" class="input-field" placeholder="example@school.com" required>
+    </div>
+
+    <button type="submit" class="submit-btn">立即注册</button>
+  </form>
+</div>
+</body>
+</html>
